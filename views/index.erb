@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Words I Know!</title>
+
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#newword').submit(function(event) {
+				event.preventDefault();
+				$.post('/', {word: $("#word").val()}, function(data) {
+					$('#word').val("");
+					$('#word').focus();
+
+					$('#words').empty();
+					$.each(data, function(i) {
+						$("<li/>").text(data[i]).appendTo('#words');
+					});
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Words I Know!</h1>
+
+	<form id="newword">
+		<h2>Add A Word!</h2>
+		<input id="word" type="text" />
+		<input id="gotime" type="submit" />
+	</form>
+
+	<hr>
+
+	<h2>List of Words!</h2>
+	<ul id="words">
+		<% @words.each do |word| %>
+			<li><%= word.word %></li>
+		<% end %>
+	</ul>
+</body>
+</html>
